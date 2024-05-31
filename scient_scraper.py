@@ -3,17 +3,17 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-bbc_url = "https://www.bbc.com"
-bbc_response = requests.get(bbc_url)
-bbc_soup = BeautifulSoup(bbc_response.content, 'html.parser')
+sc_url = "https://scientificrussia.ru/"
+sc_response = requests.get(sc_url)
+sc_soup = BeautifulSoup(sc_response.content, 'html.parser')
 
-bbc_headlines = bbc_soup.select('h2', attrs={'data-testid': 'card-headline'})
-bbc_links = bbc_soup.find('div', attrs = {'data-testid': 'vermont-section'})
-bbc_a = bbc_links.find_all('a')
+sc_headlines = sc_soup.select('h2', attrs={'data-testid': 'card-headline'})
+sc_links = sc_soup.find('div', attrs = {'data-testid': 'vermont-section'})
+sc_a = sc_links.find_all('a')
 #print(bbc_a)
 
 data = {
-    'org': bbc_url,
+    'org': sc_url,
     'scraped_at': datetime.datetime.now(),
     'headline_1': '',
     'headline_2': '',
@@ -22,20 +22,20 @@ data = {
 
 headlines = []
 # Skip first two main headlines in BBC 
-for idx, h in enumerate(bbc_headlines[2:5]):
+for idx, h in enumerate(sc_headlines[2:5]):
     try:
         headlines.append(h.text)
     except: 
         pass
 
 links = []
-for idx, a in enumerate(bbc_a[2:5]):
+for idx, a in enumerate(sc_a[2:5]):
     try: 
         link = a['href']  
-        if(link.startswith(bbc_url)):
+        if(link.startswith(sc_url)):
             links.append(link)
         else:
-            links.append(bbc_url+link)
+            links.append(sc_url+link)
     except:
         pass
 

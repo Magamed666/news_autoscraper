@@ -3,13 +3,13 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-aj_url = "https://www.aljazeera.com"
-aj_response = requests.get(aj_url)
-aj_soup = BeautifulSoup(aj_response.content, "html.parser")
+nur_url = "https://www.nur.kz"
+nur_response = requests.get(nur_url)
+nur_soup = BeautifulSoup(nur_response.content, "html.parser")
 
-aj_headlines = aj_soup.select(".article-card")
+nur_headlines = nur_soup.select(".article-card")
 data = {
-    'org': aj_url,
+    'org': nur_url,
     'scraped_at': datetime.datetime.now(),
     'headline_1': '',
     'headline_2': '',
@@ -17,7 +17,7 @@ data = {
 }
 headlines=[]
 links = []
-for idx, h in enumerate(aj_headlines[:4]):
+for idx, h in enumerate(nur_headlines[:4]):
     try:
         headline = (h.select('h3.article-card__title')[0].text.replace(u'\xad', ''))
         headlines.append(headline)
@@ -34,7 +34,7 @@ nHeadlines = dups(headlines)
 nLinks = dups(links)
 for i in range(0, len(nHeadlines)):
     key = f'headline_{i+1}'
-    value = str(nHeadlines[i]) + ", " + aj_url + str(nLinks[i]['href'])
+    value = str(nHeadlines[i]) + ", " + nur_url + str(nLinks[i]['href'])
     data[key] = value
 
 df = pd.DataFrame(data, index=[0])

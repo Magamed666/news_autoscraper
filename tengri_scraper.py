@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-url = "https://www.economist.com"
+url = "https://tengrinews.kz/"
 response = requests.get(url)
 te_soup = BeautifulSoup(response.content, 'html.parser')
 
